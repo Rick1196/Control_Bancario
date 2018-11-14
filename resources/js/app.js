@@ -6,6 +6,8 @@
  */
 
 require('./bootstrap');
+window.Vue = require('vue'); 
+Vue.use(require('vue-resource')); 
 
 window.Vue = require('vue');
 
@@ -21,6 +23,7 @@ Vue.component('atms', require('./components/AtmComponent.vue'));
 Vue.component('cajeros', require('./components/CajerosComponent.vue'));
 Vue.component('admins', require('./components/AdminComponent.vue'));
 Vue.component('auditores', require('./components/AuditorComponent.vue'));
+
 const app = new Vue({
     el: '#app'
 });

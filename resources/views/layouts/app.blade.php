@@ -17,8 +17,8 @@
     <!-- Styles -->
     <link href="{{ elixir('css/app.css') }}" rel="stylesheet">
 </head>
-<body>
-    <div>
+<body >
+    <div id="app">
             <nav class="navbar" role="navigation" aria-label="main navigation">
                     <div class="navbar-brand">
                       <a class="navbar-item" href="/">
@@ -107,6 +107,6 @@
                 </div>
             </div>
     </footer>
+    <script src="{{ elixir('js/app.js') }}"></script> 
 </body>
-<script src="{{ elixir('js/app.js') }}"></script> 
 </html>

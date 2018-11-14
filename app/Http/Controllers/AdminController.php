@@ -23,21 +23,21 @@ class AdminController extends Controller{
 
     public function getSucursales(Request $data){
         $ciudad = $data['ciudad'];
-        $sucursales = DB::connection('admin')->select('SELECT * from scb.sucursales inner join scb.ciudades c2 on scb.sucursales.ciudad = c2.id_ciudad; where ciudad = ?',[$ciudad]);
+        $sucursales = DB::connection('admin')->select('SELECT * from scb.sucursales inner join scb.ciudades c2 on scb.sucursales.ciudad = c2.id_ciudad where ciudad = ?',[$ciudad]);
         return $sucursales;
     }
 
     public function getSucursal(Request $data){
-        $ciudad = $data['ciudad'];
-        $identificador = $data['id'];
-        $sucursal = DB::connection('admin')->select('SELECT * from scb.sucursales inner join scb.ciudades c2 on scb.sucursales.ciudad = c2.id_ciudad; where ciudad = ? and identificador = ?',[$ciudad, $identificador]);
+        $ciudad = $data->input['ciudad'];
+        $identificador = $data->input['id'];
+        $sucursal = DB::connection('admin')->select('SELECT * from scb.sucursales inner join scb.ciudades c2 on scb.sucursales.ciudad = c2.id_ciudad where ciudad = ? and identificador = ?',[$ciudad, $identificador]);
         return $sucursal;
     }
 
     public function postSucursal(Request $data){
         $ciudad = $data['ciudad'];
         $identificador = $data['id'];
-        DB::connection('admin')->insert('INSERT into scb.sucursales(ciudad,identificador) values(?,?)',[$ciudad,$indentificador]);
+        DB::connection('admin')->insert('INSERT into scb.sucursales(ciudad,identificador_sucursal) values(?,?)',[$ciudad,$identificador]);
     }
 
     public function putSucursal(Request $data){
@@ -135,6 +135,45 @@ class AdminController extends Controller{
         $cliente = DB::connection('admin')->select('SELECT id_trabajador,U.NAME,EMAIL,rfc,DESCRIPTION, rol from scb.trabajadores inner join scb.ROLES on trabajadores.rol = ROLES.ID inner join scb.USERS U on trabajadores.usuario = U.ID where rol = ?',[$rfc]);
     }
 
+    public function getCuentas(Request $data){
+        $cliente = $data['cliente'];
+        $cuentas = DB::connection('admin')->select('SELECT id_cuenta,id_cliente,folio,saldo,RFC from scb.cuentas inner join scb.clientes c2 on scb.cuentas.cliente = c2.id_cliente where id_cliente = ? order by saldo',[$cliente]);
+        return $cuentas;
+    }
+
+    public function postCuenta(Request $data){
+        $saldo = $data['saldo'];
+        $cliente = $data['cliente'];
+        DB::connection('admin')->insert('execute insertar_cuenta(?,?,?)',[$saldo,$cliente,$saldo]);
+    }
+
+    public function deleteCuenta(Request $data){
+        $id = $data['id'];
+        DB::connection('admin')->delete('DELETE from scb.cuentas where id_cuenta = ?',[$id]);
+    }
+
+    public function getNumClientes(){
+        $clientes = DB::connection('admin')->select ('SELECT count(*) res from scb.clientes');
+        return $clientes;
+    }
+
+    public function getNumUsuarios(){
+        $clientes = DB::connection('admin')->select ('SELECT count(*) res from scb.users');
+        return $clientes;
+    }
+
+    public function getNumtrabajadores(){
+        $clientes = DB::connection('admin')->select ('SELECT count(*) res from scb.trabajadores');
+        return $clientes;
+    }
+
+    public function getNumCuentas(){
+        $clientes = DB::connection('admin')->select ('SELECT count(*) res from scb.cuentas');
+        return $clientes;
+    }
+
+
+    
 
 
 }

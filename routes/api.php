@@ -33,3 +33,11 @@ Route::get('/get_clientes','AdminController@getClientes');
 Route::delete('/delete_cliente/{id}','AdminController@deleteCliente');
 Route::delete('/delete_trabajador/{id}','AdminController@deleteTrabajador');
 Route::get('/get_trabajadores_rol/{rol}','AdminController@getTrabajadoresRol');
+Route::get('/get_cuentas_cliete/{cliente}','AdminController@getCuentas');
+Route::post('/post_cuenta','AdminController@postCuenta');
+Route::delete('/delete_cuenta/{id}','AdminController@deleteCuenta');
+Route::get('/get_num_clientes','AdminController@getNumClientes');
+Route::get('/get_num_usuarios','AdminController@getNumUsuarios');
+Route::get('/get_num_trabajadores','AdminController@getNumtrabajadores');
+Route::get('/get_num_cuentas','AdminController@getNumCuentas');
+
