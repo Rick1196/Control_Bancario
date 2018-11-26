@@ -11,11 +11,6 @@ Vue.use(require('vue-resource'));
 
 window.Vue = require('vue');
 
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
 
 Vue.component('example-component', require('./components/ExampleComponent.vue'));
 Vue.component('clientes', require('./components/ClientesComponent.vue'));
@@ -23,6 +18,10 @@ Vue.component('atms', require('./components/AtmComponent.vue'));
 Vue.component('cajeros', require('./components/CajerosComponent.vue'));
 Vue.component('admins', require('./components/AdminComponent.vue'));
 Vue.component('auditores', require('./components/AuditorComponent.vue'));
+Vue.component('workers', require('./components/WorkerComponent.vue'));
+Vue.component('nav-adm', require('./components/AdmNavComponent.vue'));
+Vue.component('clients', require('./components/ClienteComponent.vue'));
+Vue.component('cuentas', require('./components/CuentasComponent.vue'));
 
 const app = new Vue({
     el: '#app'

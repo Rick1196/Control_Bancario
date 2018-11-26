@@ -41,14 +41,14 @@ class AdminController extends Controller{
     }
 
     public function putSucursal(Request $data){
-        $ciudad = $data['ciudad'];
-        $identificador = $data['id'];
-        DB::connection('admin')->update('UPDATE scb.sucursales set ciudad = ?, identificador = ?',[$ciudad,$identificador]);
+        $texto = $data['texto'];
+        $id = $data['id'];
+        DB::connection('admin')->update('UPDATE scb.sucursales set identificador_sucursal = ? where id_sucursal = ?',[$texto,$id]);
     }
 
     public function deleteSucursal(Request $data){
-        $suc = $data['suc'];
-        DB::connection('admin')->update('DELETE from scb.sucursales',[$suc]);
+        $suc = $data['id'];
+        DB::connection('admin')->update('DELETE from scb.sucursales where id_sucursal = ?',[$suc]);
     }
 
     public function postCliente(Request $data){
@@ -58,13 +58,14 @@ class AdminController extends Controller{
         $pass =  bcrypt($pass);
         $rfc = $data['rfc'];
         $time = DB::connection('admin')->select("select to_char(systimestamp, 'YYYY-MM-DD HH24:MI:SS.FF1') time from dual");
-        $time = $time->time;
-        $id = DB::connection('admin')->select('INSERT into scb.users(name,email,password,created_at,updated_at) values(?,?,?,?,?) returning id',[$name,$mail,$pass,$time,$time]);
-        $id->id;
-        DB::connection('admin')->insert('INSERT into scb.clientes(RFC,usuario) values(?,?)',[$rfc,$id]);
-        $rol = DB::connection('admin')->select('SELECT id from ROLES where name = ?',['cliente']);
-        $rol = $rol->id;
-        DB::connection('admin')->insert('INSERT into scb.role_user(role_id,user_id) values(?,?)',[$rol,$id]);
+        $time = $time[0]->time;
+        $id = DB::connection('admin')->insert('INSERT into scb.users(name,email,password) values(?,?,?)',[$name,$mail,$pass]);
+        $id = DB::connection('admin')->select('SELECT id from scb.users where name = ?',[$name]);
+        $id = $id[0]->id;
+        DB::connection('admin')->insert('INSERT INTO scb.clientes(RFC,usuario) values(?,?)',[$rfc,$id]);
+        $rol = DB::connection('admin')->select('SELECT id from scb.ROLES where name = ?',['cliente']);
+        $rol = $rol[0]->id;
+        DB::connection('admin')->insert('INSERT INTO scb.role_user(role_id,user_id) values(?,?)',[$rol,$id]);
     }
 
     public function postTrabajador(Request $data){
@@ -74,42 +75,36 @@ class AdminController extends Controller{
         $rol = $data['rol'];
         $pass =  bcrypt($pass);
         $rfc = $data['rfc'];
-        $time = DB::connection('admin')->select("select to_char(systimestamp, 'YYYY-MM-DD HH24:MI:SS.FF1') time from dual");
-        $time = $time->time;
-        $id = DB::connection('admin')->select('INSERT into scb.users(name,email,password,created_at,updated_at) values(?,?,?,?,?) returning id',[$name,$mail,$pass,$time,$time]);
-        $id->id;
-        DB::connection('admin')->insert('INSERT into scb.trabajadores(RFC,usuario,$rol) values(?,?)',[$rfc,$id,$rol]);
-        $rol = $rol->id;
-        DB::connection('admin')->insert('INSERT into scb.role_user(role_id,user_id) values(?,?)',[$rol,$id]);
+        $time = DB::connection('admin')->select("select to_char(systimestamp, 'YYYY-MM-DD HH24:MI:SS.FF1') tiempo from dual");
+        $time = $time[0]->tiempo;
+        DB::connection('admin')->insert('INSERT INTO scb.users(name,email,password) values(?,?,?)',[$name,$mail,$pass]);
+        $id = DB::connection('admin')->select('SELECT id from scb.users where name = ?',[$name]);
+        $id = $id[0]->id;
+        DB::connection('admin')->insert('INSERT INTO scb.trabajadores(RFC,usuario,rol) values(?,?,?)',[$rfc,$id,$rol]);
+        DB::connection('admin')->insert('INSERT INTO scb.role_user(role_id,user_id) values(?,?)',[$rol,$id]);
     }
 
     public function putTrabajador(Request $data){
         $name = $data['name'];
-        $mail = $data['mail'];
-        $rol = $data['rol'];
-        $pass =  bcrypt($pass);
         $rfc = $data['rfc'];
         $usr = $data['usr'];
-        $cliete = $cliente;
-        DB::connection('admin')->insert('UPDATE scb.users set name = ?, email = ?',[$name,$mail]);
-        DB::connection('admin')->insert('UPDATE scb.trabajadores set RFC = ?, rol = ?',[$rfc,$rol]);
+        $tr = $data['cl'];
+        DB::connection('admin')->insert('UPDATE scb.users set name = ? where id = ?',[$name,$usr]);
+        DB::connection('admin')->insert('UPDATE scb.trabajadores set RFC = ? where id_trabajador = ? ',[$rfc,$tr]);
     }
 
     public function putCliente(Request $data){
         $name = $data['name'];
-        $mail = $data['mail'];
-        $rol = $data['rol'];
-        $pass =  bcrypt($pass);
         $rfc = $data['rfc'];
         $usr = $data['usr'];
-        $cliete = $cliente;
-        DB::connection('admin')->insert('UPDATE scb.users set name = ?, email = ?',[$name,$mail]);
-        DB::connection('admin')->insert('UPDATE scb.clientes set RFC = ?',[$rfc]);
+        $tr = $data['cl'];
+        DB::connection('admin')->insert('UPDATE scb.users set name = ? where id = ?',[$name,$usr]);
+        DB::connection('admin')->insert('UPDATE scb.clientes set RFC = ? where id_cliente = ? ',[$rfc,$tr]);
     }
 
     public function getCliente(Request $data){
         $rfc = $data['rfc'];
-        $cliente = DB::connection('admin')->select('SELECT id_cliente,RFC,usuario,NAME,EMAIL from scb.clientes inner join scb.USERS on clientes.usuario = USERS.ID where RFC = ?',[$rfc]);
+        $cliente = DB::connection('admin')->select('SELECT * from scb.clientes where RFC = ?',[$rfc]);
         return $cliente;
     }
 
@@ -119,15 +114,13 @@ class AdminController extends Controller{
     }
 
     public function deleteCliente(Request $data){
-        $id = $data['id'];
-         DB::connection('admin')->delete('DELETE from scb.clientes where usuario = ?',[$id]);
-         DB::connection('admin')->delete('DELETE from scb.users where id = ?',[$id]);
+        $cl = $data['cl'];
+         DB::connection('admin')->delete('DELETE from scb.users where id = ?',[$cl]);
     }
 
     public function deleteTrabajador(Request $data){
-        $id = $data['id'];
-         DB::connection('admin')->delete('DELETE from scb.trabajadores where usuario = ?',[$id]);
-         DB::connection('admin')->delete('DELETE from scb.users whete id = ?',[$id]);
+        $id = $data['cl'];
+         DB::connection('admin')->delete('DELETE from scb.users where id = ?',[$id]);
     }
 
     public function getTrabajadoresRol(Request $data){
@@ -144,12 +137,15 @@ class AdminController extends Controller{
     public function postCuenta(Request $data){
         $saldo = $data['saldo'];
         $cliente = $data['cliente'];
-        DB::connection('admin')->insert('execute insertar_cuenta(?,?,?)',[$saldo,$cliente,$saldo]);
+        $cl = strval($cliente);
+        $res =  DB::connection('admin')->select("call scb.insertar_cuenta($saldo,'$cl',$cliente)");
+        //DB::connection('admin')->select("call scb.insertar_cuenta(?,?,?)",[$saldo,$cliente,$cl]);
+        return $res;
     }
 
     public function deleteCuenta(Request $data){
         $id = $data['id'];
-        DB::connection('admin')->delete('DELETE from scb.cuentas where id_cuenta = ?',[$id]);
+        DB::connection('admin')->delete('DELETE from scb.cuentas where folio = ?',[$id]);
     }
 
     public function getNumClientes(){
@@ -170,6 +166,22 @@ class AdminController extends Controller{
     public function getNumCuentas(){
         $clientes = DB::connection('admin')->select ('SELECT count(*) res from scb.cuentas');
         return $clientes;
+    }
+
+    public function getListaClientes(){
+        $clientes = DB::connection('admin')->select('SELECT cl.ID_CLIENTE cliente, u.ID usuario, u.NAME nombre, cl.RFC rfc from scb.CLIENTES cl inner join scb.USERS u on cl.usuario = u.ID');
+        return $clientes;
+    }
+
+    public function getListaTrabajadores(){
+        $tr = DB::connection('admin')->select('SELECT u.ID usuario,tr.ID_TRABAJADOR trabajador, u.NAME nombre, tr.RFC rfc from scb.TRABAJADORES tr inner join SCB.USERS u on tr.USUARIO = u.ID');
+        return $tr;
+    }
+
+    public function putCuenta(Request $data){
+        $folio = $data['folio'];
+        $saldo = $data['saldo'];
+        DB::connection('admin')->update('UPDATE scb.cuentas set saldo = ? where folio = ?',[$saldo,$folio]);
     }
 
 

@@ -64,15 +64,21 @@
     <?php else: ?>
         <div id="app">
             <?php if(Auth::user()->hasRole('cliente')): ?>
-                <div><clientes></clientes></div>
+                <div><clientes user="<?php echo e(Auth::user()->id); ?>"></clientes></div>
             <?php elseif(Auth::user()->hasRole('atm')): ?>
-                <div><atms></atms></div>
+                <div><atms user="<?php echo e(Auth::user()->id); ?>"></atms></div>
             <?php elseif(Auth::user()->hasRole('cajero')): ?>
-                <div><cajeros></cajeros></div>
+                <div><cajeros user="<?php echo e(Auth::user()->id); ?>"></cajeros></div>
             <?php elseif(Auth::user()->hasRole('admin')): ?>
-                <div><admins></admins></div>
+                <div>
+                    <nav-adm></nav-adm>
+                    <admins></admins>
+                    <workers></workers>
+                    <clients></clients>
+                    <cuentas></cuentas>
+                </div>
             <?php elseif(Auth::user()->hasRole('auditor')): ?>
-                <div><auditores></auditores></div>
+                <div><auditores user="<?php echo e(Auth::user()->id); ?>"></auditores></div>
             <?php endif; ?>
         </div>
     <?php endif; ?>

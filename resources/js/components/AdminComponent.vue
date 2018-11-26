@@ -1,94 +1,32 @@
 <template>
-    <div>
-            <nav class="level">
-                <div class="level-item has-text-centered">
-                    <div>
-                    <p class="heading">Usuarios</p>
-                    <p class="title">{{tUsuarios[0].res}}</p>
-                    </div>
-                </div>
-                <div class="level-item has-text-centered">
-                    <div>
-                    <p class="heading">Clientes</p>
-                    <p class="title">{{tClientes[0].res}}</p>
-                    </div>
-                </div>
-                <div class="level-item has-text-centered">
-                    <div>
-                    <p class="heading">Trabajadores</p>
-                    <p class="title">{{tTrabajadores[0].res}}</p>
-                    </div>
-                </div>
-                <div class="level-item has-text-centered">
-                    <div>
-                    <p class="heading">Cuentas manejadas</p>
-                    <p class="title">{{tCuentas[0].res}}</p>
-                    </div>
-                </div>
-            </nav>
-            <div class="columns is-centered">
-                <div class="tabs is-toggle is-toggle-rounded">
-                    <ul>
-                        <li v-on:click="clientesMeth">
-                        <a>
-                            <span class="icon is-small"><i class="fas fa-image"></i></span>
-                            <span>Clientes</span>
-                        </a>
-                        </li>
-                        <li v-on:click="cuentasMeth">
-                        <a>
-                            <span class="icon is-small"><i class="fas fa-music"></i></span>
-                            <span>Cuentas</span>
-                        </a>
-                        </li>
-                        <li v-on:click="sucursalesMeth">
-                        <a>
-                            <span class="icon is-small"><i class="fas fa-film"></i></span>
-                            <span>Sucursales</span>
-                        </a>
-                        </li>
-                        <li v-on:click="trabajadoresMeth">
-                        <a>
-                            <span class="icon is-small"><i class="fas fa-file-alt"></i></span>
-                            <span>Trabajadores</span>
-                        </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+    <div v-if="sucursalesR">
             <div class="columns is-centered">
                 <div class="column">
-                        <div class="container is-fullhd">
+                        <div class="container">
                             <div class="section" v-if="sucursalesRender">
                                     <div class="content">
-                                            <div class="columns">
-                                                <div class="column">
-                                                    <div>
-                                                            <div class="control">
-                                                                <div class="select is-primary">
-                                                                    <label class="label">Paises</label>
-                                                                    <select  v-model="pais_selected">
-                                                                        <option v-for="pais in paises" :key="pais.id_pais" :value="pais.id_pais">
-                                                                            {{pais.nombre_pais}}
-                                                                        </option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
+                                            <div class="section">
+                                                <div class="field is-grouped">
+                                                    <div class="select">
+                                                        <p class="control">
+                                                            <label class="label">Paises</label>
+                                                            <select  v-model="pais_selected">
+                                                                <option v-for="pais in paises" :key="pais.id_pais" :value="pais.id_pais">
+                                                                    {{pais.nombre_pais}}
+                                                                </option>
+                                                            </select>
+                                                        </p>
                                                     </div>
-                                                </div>
-                                                <div class="column">
-                                                    <div v-if="renderC">
-                                                        <div class="control">
-                                                            <div  class="select is-primary">
-                                                                <label class="label">Ciudades</label>
-                                                                <select  v-model="ciudad_selected">
-                                                                    <option v-for="ciudad in ciudades" :key="ciudad.id_ciudad" :value="ciudad.id_ciudad">
-                                                                        {{ciudad.nombre_ciudad}}
-                                                                    </option>
-                                                                </select>
-                                                            </div>
+                                                    <p class="control">
+                                                        <div class="select" v-if="renderC">
+                                                            <label class="label">Ciudades</label>
+                                                            <select  v-model="ciudad_selected">
+                                                                <option v-for="ciudad in ciudades" :key="ciudad.id_ciudad" :value="ciudad.id_ciudad">
+                                                                    {{ciudad.nombre_ciudad}}
+                                                                </option>
+                                                            </select>
                                                         </div>
-                                                    </div>
+                                                    </p>
                                                 </div>
                                             </div>
                                             <div class="section" v-if="renderTS">
@@ -113,19 +51,32 @@
                                                         <tr>
                                                             <th><abbr title="Position">#</abbr></th>
                                                             <th><abbr title="Sucursal">Identificador sucursal</abbr></th>
-                                                            <th><abbr title="Sucursal">Identificador sucursal</abbr></th>
+                                                            <th><abbr title="Eliminar">Eliminar sucursal</abbr></th>
                                                         </tr>
                                                         </thead>
                                                         <tfoot>
                                                         <tr>
                                                             <th><abbr title="Position">#</abbr></th>
                                                             <th><abbr title="Sucursal">Identificador sucursal</abbr></th>
+                                                            <th><abbr title="Eliminar">Eliminar sucursal</abbr></th>
                                                         </tr>
                                                         </tfoot>
                                                         <tbody>
                                                         <tr v-for="(suc,num) in sucursales">
                                                             <th>{{num}}</th>
-                                                            <td>{{suc.identificador_sucursal}}</td>
+                                                            <th>
+                                                                <div class="field has-addons has-addons-centered">
+                                                                    <p class="control">
+                                                                        <input class="input" type="text" v-model="suc.identificador_sucursal" >
+                                                                    </p>
+                                                                    <p class="control">
+                                                                        <a class="button is-primary" v-on:click="upSuc(suc.id_sucursal, suc.identificador_sucursal)">
+                                                                            Guardar
+                                                                        </a>
+                                                                    </p>
+                                                                </div>
+                                                            </th>
+                                                            <td><a v-on:click="delSuc(suc.id_sucursal)" class="delete is-large"></a></td>
                                                         </tr>
                                                         </tbody>
                                                     </table>
@@ -143,10 +94,6 @@ export default {
     props:['user'],
     data(){
         return{
-            tUsuarios:'',
-            tClientes:'',
-            tTrabajadores:'',
-            tCuentas:'',
             ciudades:[],
             paises:[],
             pais_selected:'',
@@ -154,32 +101,16 @@ export default {
             sucursalesRender:false,
             clientesRender:false,
             cuentasRender:false,
-            trabajadoresRender:false,
             renderC:false,
             sucursales:[],
             renderTS:false,
             sucursal:{
                 identificador:''
             },
+            sucursalesR:true,
         }
     },
     methods:{
-        getUsuariosT(){
-            axios.get('api/get_num_usuarios').then(response => (this.tUsuarios = response.data))
-            .catch(error => console.log(error))
-        },
-        getClientesT(){
-            axios.get('api/get_num_clientes').then(response => (this.tClientes = response.data))
-            .catch(error => console.log(error))
-        },
-        getTrabajadoresT(){
-            axios.get('api/get_num_trabajadores').then(response => (this.tTrabajadores = response.data))
-            .catch(error => console.log(error))
-        },
-        getCuentasT(){
-            axios.get('api/get_num_cuentas').then(response => (this.tCuentas = response.data))
-            .catch(error => console.log(error))
-        },
         getCiudades(){
             axios.get('api/get_ciudades/'+this.pais_selected).then(response => {
                 this.ciudades = response.data;
@@ -207,27 +138,31 @@ export default {
             }).then(response => {
                 this.getSucursales();
                 this.renderTS = true;
-            })
-                .catch(error => console.log(error))
+                this.sucursal.identificador = '';
+            }).catch(error => alert('Identificador repetido'))
         },
-        cuentasMeth(){
-            alert('chido');
+        delSuc(id){
+            this.$http.post('api/delete_sucursal',{
+                id:id
+            }).then(response => {
+                this.getSucursales();
+            }).catch(error => console.log(error))
         },
-        clientesMeth(){
-            alert('chido');
+        upSuc(id,text){
+            this.$http.post('api/update_sucursal',{
+                texto:text,
+                id:id
+            }).then(response => {
+                this.getSucursales();
+            }).catch(error => alert('Identificador ocupado'))
         },
-        trabajadoresMeth(){
+        cleanAll(){
+            this.ciudades = [];
+            this.paises=[];
+            this.sucursales=[];
             this.sucursalesRender = false;
+
         },
-        sucursalesMeth(){
-            this.getPaises();
-        }
-    },
-    mounted(){
-        this.getClientesT();
-        this.getUsuariosT();
-        this.getTrabajadoresT();
-        this.getCuentasT();
     },
     watch:{
         pais_selected: function () {
@@ -236,6 +171,18 @@ export default {
         ciudad_selected: function () {
             this.getSucursales()
         }
+    },
+    mounted(){
+        this.getPaises();
+        this.$root.$on('render',(mensaje) => {
+            if(mensaje === 'sucursales'){
+                this.sucursalesR = true;
+            }
+            else{
+                this.sucursalesR = false;
+            }
+
+        });
     }
 
 }
