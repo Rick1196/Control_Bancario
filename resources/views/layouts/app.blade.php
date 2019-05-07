@@ -46,15 +46,6 @@
                                     </a>
                                 </div>
                             @else
-                                <div class="buttons">
-                                    @if(Auth::user()->hasRole('admin'))
-                                        @if (Route::has('register'))
-                                            <a class="button is-primary" href="{{ route('register') }}">
-                                                {{ __('Registrar usuario') }}
-                                            </a>
-                                        @endif
-                                    @endif
-                                </div>
                                 <div class="navbar-item has-dropdown is-hoverable">
                                         <a class="navbar-link">
                                                 {{ Auth::user()->name }} <span class="caret"></span>

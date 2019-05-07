@@ -47,16 +47,6 @@
                                     </a>
                                 </div>
                             <?php else: ?>
-                                <div class="buttons">
-                                    <?php if(Auth::user()->hasRole('admin')): ?>
-                                        <?php if(Route::has('register')): ?>
-                                            <a class="button is-primary" href="<?php echo e(route('register')); ?>">
-                                                <?php echo e(__('Registrar usuario')); ?>
-
-                                            </a>
-                                        <?php endif; ?>
-                                    <?php endif; ?>
-                                </div>
                                 <div class="navbar-item has-dropdown is-hoverable">
                                         <a class="navbar-link">
                                                 <?php echo e(Auth::user()->name); ?> <span class="caret"></span>

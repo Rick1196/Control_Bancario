@@ -53,6 +53,12 @@
                             <span>Trabajadores</span>
                         </a>
                     </li>
+                    <li v-on:click="otros('reportes')">
+                        <a>
+                            <span class="icon is-small"><i class="fas fa-file-alt"></i></span>
+                            <span>Reportes</span>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>

@@ -43,4 +43,17 @@ Route::get('/get_num_trabajadores','AdminController@getNumtrabajadores');
 Route::get('/get_num_cuentas','AdminController@getNumCuentas');
 Route::get('/get_lista_clientes','AdminController@getListaClientes');
 Route::get('/get_lista_tr','AdminController@getListaTrabajadores');
+Route::post('/get_num_cliente','ClienteController@get_Cli');
+Route::post('/get_cli_cu','ClienteController@getCuentas');
+Route::post('/get_des','ClienteController@getDes');
+Route::post('/post_transaccion','ClienteController@postTransaccion');
+Route::post('/get_acum','ClienteController@getAcum');
+Route::post('/get_montoT','CajeroController@get_montoT');
+Route::post('/depositar','CajeroController@depositar');
+Route::post('/get_transacciones','CajeroController@get_transacciones');
+Route::post('/encuentra','CajeroController@encontrar');
+Route::post('/montos','AdminController@montos');
+Route::post('/fechas','AdminController@fechas');
+Route::post('/ambos','AdminController@ambos');
+
 

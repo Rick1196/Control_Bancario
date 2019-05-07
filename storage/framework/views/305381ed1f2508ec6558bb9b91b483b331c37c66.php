@@ -1,7 +1,7 @@
 <?php $__env->startSection('content'); ?>
 <section class="hero">
         <figure class="image">
-            <img src="https://d500.epimg.net/cincodias/imagenes/2017/09/06/ahorros/1504683040_977295_1504683264_noticia_normal.jpg">
+            <img src="<?php echo e(asset('img/font.jpg')); ?>">
         </figure>
 </section>
 </section class="section">
@@ -10,57 +10,32 @@
             <p>Sistema bancario en linea, la manera mas sencilla para la gestion bancaria de toda una organización.</p>
     </div>
     <?php if(auth()->guard()->guest()): ?>
-        <div class="columns is-centered" style="padding: 2rem">
-            
-            <div class="column">
-                <div class="card">
-                    <div class="card-image">
-                        <figure class="image is-2by1">
-                            <img src="https://images.pexels.com/photos/167635/pexels-photo-167635.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Placeholder image">
-                        </figure>
-                    </div>
-                    <div class="card-content">
-                        <div class="media">
-                            <div class="media-content">
-                                <p class="title is-4">John Smith</p>
-                                <p class="subtitle is-6">@johnsmith</p>
-                            </div>
-                        </div>
+    <div class="hero-body">
+        <div class="container has-text-centered">
+            <div class="column is-6 is-offset-3">
+                <h1 class="title">
+                    SCB
+                </h1>
+                <h2 class="subtitle">
+                   La mejor plataforma de banca en line
+                </h2>
+                <div class="box">
+                    <div class="field is-grouped">
+                        <p class="control">
+                            
+                            <div class="buttons">
+                                <a class="button is-light is-large is-fullwidth" href="<?php echo e(route('login')); ?>">
+                                        <?php echo e(__('Iniciar sesion')); ?>
 
-                        <div class="content">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris.
-                            <a>@bulmaio</a>.
-                            <a href="#">#css</a>
-                            <a href="#">#responsive</a>
-                        </div>
+                                </a>
+                            </div>
+                        </p>
                     </div>
                 </div>
             </div>
-            <div class="column">
-                    <div class="card">
-                        <div class="card-image">
-                            <figure class="image is-2by1">
-                                <img src="https://images.pexels.com/photos/167635/pexels-photo-167635.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Placeholder image">
-                            </figure>
-                        </div>
-                        <div class="card-content">
-                            <div class="media">
-                                <div class="media-content">
-                                    <p class="title is-4">John Smith</p>
-                                    <p class="subtitle is-6">@johnsmith</p>
-                                </div>
-                            </div>
-
-                            <div class="content">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris.
-                                <a>@bulmaio</a>.
-                                <a href="#">#css</a>
-                                <a href="#">#responsive</a>
-                            </div>
-                        </div>
-                    </div>
-            </div>
         </div>
+    </div>
+
     <?php else: ?>
         <div id="app">
             <?php if(Auth::user()->hasRole('cliente')): ?>
@@ -76,6 +51,7 @@
                     <workers></workers>
                     <clients></clients>
                     <cuentas></cuentas>
+                    <reportes-view></reportes-view>
                 </div>
             <?php elseif(Auth::user()->hasRole('auditor')): ?>
                 <div><auditores user="<?php echo e(Auth::user()->id); ?>"></auditores></div>

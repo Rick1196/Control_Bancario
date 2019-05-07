@@ -184,6 +184,31 @@ class AdminController extends Controller{
         DB::connection('admin')->update('UPDATE scb.cuentas set saldo = ? where folio = ?',[$saldo,$folio]);
     }
 
+    public function montos(Request $data){
+        $r1 = $data['r1'];
+        $r2 = $data['r2'];
+        $res = DB::connection('admin')->select("SELECT folio fol, monto monto, fecha fecha from scb.a1  WHERE monto between ? and ?",[$r1,$r2]);
+        return $res;
+    }
+
+
+    public function fechas(Request $data){
+        $r1 = $data['r1'];
+        $r2 = $data['r2'];
+        $res = DB::connection('admin')->select("SELECT folio fol, monto monto, fecha fecha from scb.a1  WHERE fecha BETWEEN TO_DATE (?, 'yyyy/mm/dd')AND TO_DATE (?, 'yyyy/mm/dd')",[$r1,$r2]);
+        return $res;
+    }
+
+    function ambos(Request $data){
+        $r1 = $data['r1'];
+        $r2 = $data['r2'];
+        $f1 = $data['f1'];
+        $f2 = $data['f2'];
+        $res = DB::connection('admin')->select("SELECT folio fol, monto monto, fecha fecha from scb.a1  WHERE fecha BETWEEN TO_DATE (?, 'yyyy/mm/dd') AND TO_DATE (?, 'yyyy/mm/dd') and monto between ? and ? order by fecha asc",[$f1,$f2,$r1,$r2]);
+        return $res;
+
+    }
+
 
     
 

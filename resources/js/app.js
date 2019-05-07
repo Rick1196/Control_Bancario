@@ -10,6 +10,8 @@ window.Vue = require('vue');
 Vue.use(require('vue-resource')); 
 
 window.Vue = require('vue');
+var jsPDF = require('jspdf');
+require('jspdf-autotable');
 
 
 Vue.component('example-component', require('./components/ExampleComponent.vue'));
@@ -22,6 +24,8 @@ Vue.component('workers', require('./components/WorkerComponent.vue'));
 Vue.component('nav-adm', require('./components/AdmNavComponent.vue'));
 Vue.component('clients', require('./components/ClienteComponent.vue'));
 Vue.component('cuentas', require('./components/CuentasComponent.vue'));
+Vue.component('reportes-view', require('./components/ReportesComponent.vue'));
+
 
 const app = new Vue({
     el: '#app'

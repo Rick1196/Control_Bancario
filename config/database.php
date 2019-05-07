@@ -40,12 +40,12 @@ return [
         ],
 
         'cliente' => [
-            'driver'    => env('DB_CONNECTION_CLIETE'),
-            'host'      => env('DB_HOST_CLIETE'),
-            'port'      => env('DB_PORT_CLIETE'),
-            'database'  => env('DB_DATABASE_CLIETE'),
-            'username'  => env('DB_USERNAME_CLIETE'),
-            'password'  => env('DB_PASSWORD_CLIETE'),
+            'driver'    => env('DB_CONNECTION_CLIENTE'),
+            'host'      => env('DB_HOST_CLIENTE'),
+            'port'      => env('DB_PORT_CLIENTE'),
+            'database'  => env('DB_DATABASE_CLIENTE'),
+            'username'  => env('DB_USERNAME_CLIENTE'),
+            'password'  => env('DB_PASSWORD_CLIENTE'),
         ],
 
         'atm' => [
